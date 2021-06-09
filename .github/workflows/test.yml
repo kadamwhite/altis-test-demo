@@ -40,4 +40,6 @@ jobs:
 
       - name: Run PHPUnit
         run: |
+          sudo touch vendor/phpunit.xml
+          sudo chown $(whoami) vendor/phpunit.xml
           composer dev-tools phpunit          
