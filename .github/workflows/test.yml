@@ -29,20 +29,15 @@ jobs:
         uses: php-actions/composer@v6
         with:
           version: 1 # Composer 1
-          ssh_key: ${{ secrets.ssh_key }}
-          ssh_key_pub: ${{ secrets.ssh_key_pub }}
-
-      - name: Diagnostic
-        shell: 'script -q -e -c "bash {0}"'
-        run: |
-          sudo touch vendor/docker-compose.yml
-          sudo chown $(whoami) vendor/docker-compose.yml
-          ls -la vendor
-          ls -la vendor/docker-compose.yml
-          pwd
-          whoami
 
       - name: Start the containers
         shell: 'script -q -e -c "bash {0}"'
+        # Make the docker-compose file writeable, then start the server.
         run: |
+          sudo touch vendor/docker-compose.yml
+          sudo chown $(whoami) vendor/docker-compose.yml
           composer server start
+
+      - name: Run PHPUnit
+        run: |
+          composer dev-tools phpunit          
