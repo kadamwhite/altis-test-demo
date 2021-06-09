@@ -35,6 +35,8 @@ jobs:
       - name: Diagnostic
         shell: 'script -q -e -c "bash {0}"'
         run: |
+          sudo touch vendor/docker-compose.yml
+          sudo chown $(whoami) vendor/docker-compose.yml
           ls -la vendor
           ls -la vendor/docker-compose.yml
           pwd
